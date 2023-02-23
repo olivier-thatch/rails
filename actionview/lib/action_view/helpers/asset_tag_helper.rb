@@ -164,6 +164,8 @@ module ActionView
       #   that path.
       # * <tt>:skip_pipeline</tt>  - This option is used to bypass the asset pipeline
       #   when it is set to true.
+      # * <tt>:nonce</tt>  - When set to true, adds an automatic nonce value if
+      #   you have Content Security Policy enabled.
       #
       # ==== Examples
       #
@@ -188,6 +190,9 @@ module ActionView
       #   stylesheet_link_tag "random.styles", "/css/stylish"
       #   # => <link href="/assets/random.styles" rel="stylesheet" />
       #   #    <link href="/css/stylish.css" rel="stylesheet" />
+      #
+      #   stylesheet_link_tag "style.css", nonce: true
+      #   # => <link href="http://www.example.com/xmlhr.js" rel="stylesheet" nonce="..." />
       def stylesheet_link_tag(*sources)
         options = sources.extract_options!.stringify_keys
         path_options = options.extract!("protocol", "extname", "host", "skip_pipeline").symbolize_keys
@@ -214,6 +219,10 @@ module ActionView
 
           if apply_stylesheet_media_default && tag_options["media"].blank?
             tag_options["media"] = "screen"
+          end
+
+          if tag_options["nonce"] == true
+            tag_options["nonce"] = content_security_policy_nonce
           end
 
           tag(:link, tag_options)

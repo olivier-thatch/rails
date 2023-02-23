@@ -540,6 +540,10 @@ class AssetTagHelperTest < ActionView::TestCase
     assert_dom_equal %(<link href="//assets.example.com/stylesheets/wellington.css" rel="stylesheet" />), stylesheet_link_tag("wellington")
   end
 
+  def test_stylesheet_link_tag_nonce
+    assert_dom_equal %(<link href="/file.css" rel="stylesheet" nonce="iyhD0Yc0W+c=" />), stylesheet_link_tag("/file", nonce: true)
+  end
+
   def test_stylesheet_link_tag_with_configured_stylesheet_media_default
     original_default_media = ActionView::Helpers::AssetTagHelper.apply_stylesheet_media_default
     ActionView::Helpers::AssetTagHelper.apply_stylesheet_media_default = true

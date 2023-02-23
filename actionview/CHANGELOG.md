@@ -1,3 +1,14 @@
+*   Add `nonce: true` option to `stylesheet_link_tag`
+
+    You can now use the `nonce: true` option with `stylesheet_link_tag`:
+
+    ```erb
+    stylesheet_link_tag "style.css", nonce: true
+    # => <link href="http://www.example.com/xmlhr.js" rel="stylesheet" nonce="..." />
+    ```
+
+    *Olivier Bellone*
+
 *   Guard `token_list` calls from escaping HTML too often
 
     *Sean Doyle*
